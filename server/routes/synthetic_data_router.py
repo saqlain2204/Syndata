@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, UploadFile, File
+from fastapi import APIRouter, HTTPException, UploadFile, File, Form
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import List, Optional
@@ -19,13 +19,13 @@ router = APIRouter(prefix="/api/synthetic-data", tags=["synthetic-data"])
 @router.post("/generate", response_model=SyntheticDataResponse)
 async def generate_synthetic_data_from_pdf(
     file: UploadFile = File(...),
-    groq_api_key: str = ...,
-    hf_api_key: str = ...,
-    model: str = "qwen/qwen-2.5-72b-instruct",
-    query_improvement_steps: int = 3,
-    total_data_points: int = 5,
-    chunk_size: int = 1000,
-    chunk_overlap: int = 200
+    groq_api_key: str = Form(...),
+    hf_api_key: str = Form(...),
+    model: str = Form("llama-3.1-8b-instant"),
+    query_improvement_steps: int = Form(3),
+    total_data_points: int = Form(5),
+    chunk_size: int = Form(1000),
+    chunk_overlap: int = Form(200)
 ):
     """
     Upload a PDF and generate synthetic question-answer pairs.
@@ -74,6 +74,15 @@ async def generate_synthetic_data_from_pdf(
         # Read the generated CSV to include in response
         df = pd.read_csv("synthetic_data_output.csv")
         data_list = df.to_dict(orient='records')
+        
+        # Parse context field from string representation back to list
+        import ast
+        for item in data_list:
+            if isinstance(item.get('context'), str):
+                try:
+                    item['context'] = ast.literal_eval(item['context'])
+                except (ValueError, SyntaxError):
+                    item['context'] = [item['context']]
         
         return SyntheticDataResponse(
             status="success",
