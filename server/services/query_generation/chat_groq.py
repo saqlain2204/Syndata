@@ -1,6 +1,7 @@
 from langchain_groq import ChatGroq
+from prompts.prompts import query_prompt
 
-def generate_query_groq(prompt: str, model: str, contexts: str):
+def generate_query_groq(model: str, contexts: str, api_key: str) -> str:
     """
     Generate a query using the Groq model based on the provided prompt and contexts.
 
@@ -12,6 +13,7 @@ def generate_query_groq(prompt: str, model: str, contexts: str):
     Returns:
         str: The generated query.
     """
-    chat_groq = ChatGroq(model=model)
-    response = chat_groq.invoke(prompt, context=contexts)
-    return response
+    prompt = query_prompt(contexts=contexts)
+    chat_groq = ChatGroq(model=model, api_key=api_key)
+    response = chat_groq.invoke(prompt)
+    return response.content
