@@ -8,6 +8,7 @@ def generate_context(similarity_threshold: float, document_embeddings: list, con
     Args:
         similarity_threshold (float): The threshold for selecting relevant document sections.
         document_embeddings (list): A list of tuples containing document sections and their embeddings.
+        content (list): A list of document sections corresponding to the embeddings.
 
     Returns:
         list: A list of selected document sections as context.
