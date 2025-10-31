@@ -6,7 +6,14 @@ def query_prompt(contexts: str):
         statement that can be addressed by the given context.
 
         contexts:
-        {contexts}"""
+        {contexts}
+        
+        Return the output in the following JSON format:
+        {{
+            "input": "your generated question or statement here"
+        }}
+        
+        """
 
 def multi_context_template(context: str, original_input: str):
     return f"""I want you to rewrite the given `input` so that it requires readers to use information from all elements in `Context`.
@@ -20,7 +27,11 @@ def multi_context_template(context: str, original_input: str):
 
         Context: {context}
         Input: {original_input}
-        Rewritten Input:
+        
+        Return the output in the following JSON format:
+        {{
+            "input": "Rewritten Input here"
+        }}
         """
 
 def reasoning_template(context: str, original_input: str):
@@ -36,7 +47,11 @@ def reasoning_template(context: str, original_input: str):
 
         Context: {context}
         Input: {original_input}
-        Rewritten Input:
+
+        Return the output in the following JSON format:
+        {{
+            "input": "Rewritten Input here"
+        }}
         """
 
 def hypothetical_scenario_template(context: str, original_input: str):
@@ -52,7 +67,10 @@ def hypothetical_scenario_template(context: str, original_input: str):
 
         Context: {context}
         Input: {original_input}
-        Rewritten Input:
+        Return the output in the following JSON format:
+        {{
+            "input": "Rewritten Input here"
+        }}
         """
 def expected_output_prompt(contexts: str, evolved_query: str):
     return f"""I want you to generate an answer for the given `input`. This answer has to be factually aligned to the provided context.
@@ -61,5 +79,8 @@ def expected_output_prompt(contexts: str, evolved_query: str):
         
         Context: {contexts}
         Input: {evolved_query}
-        Answer:
+        Return the output in the following JSON format:
+        {{
+            "expected_output": "Your generated answer here"
+        }}
         """
