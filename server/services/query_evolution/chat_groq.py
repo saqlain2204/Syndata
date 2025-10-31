@@ -1,6 +1,7 @@
 from prompts.prompts import multi_context_template, reasoning_template, hypothetical_scenario_template
 import random
 from langchain_groq import ChatGroq
+from models.llm_output import QueryOutput
 import time
 
 def evolve_query(query: str, api_key: str, model: str, context: str, steps: int):
@@ -13,11 +14,12 @@ def evolve_query(query: str, api_key: str, model: str, context: str, steps: int)
         reasoning_template_str,
         hypothetical_scenario_template_str
     ]
+    chat_groq = ChatGroq(model=model, api_key=api_key).with_structured_output(QueryOutput)
     for _ in range(steps):
         chosen_prompt = random.choice(evolution_prompts)
-        current_input = ChatGroq(model=model, api_key=api_key).invoke(chosen_prompt)
+        current_input = chat_groq.invoke(chosen_prompt).input
         time.sleep(5)
-    return current_input.content
+    return current_input
 
       
         

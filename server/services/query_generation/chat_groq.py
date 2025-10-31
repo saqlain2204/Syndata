@@ -1,5 +1,6 @@
 from langchain_groq import ChatGroq
 from prompts.prompts import query_prompt
+from models.llm_output import QueryOutput
 
 def generate_query_groq(model: str, contexts: str, api_key: str) -> str:
     """
@@ -14,6 +15,6 @@ def generate_query_groq(model: str, contexts: str, api_key: str) -> str:
         str: The generated query.
     """
     prompt = query_prompt(contexts=contexts)
-    chat_groq = ChatGroq(model=model, api_key=api_key)
+    chat_groq = ChatGroq(model=model, api_key=api_key).with_structured_output(QueryOutput)
     response = chat_groq.invoke(prompt)
-    return response.content
+    return response.input

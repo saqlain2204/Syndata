@@ -1,5 +1,6 @@
 from langchain_groq import ChatGroq
 from prompts.prompts import expected_output_prompt
+from models.llm_output import ExpectedOutput
 
 def generate_expected_output(model: str, contexts: str, evolved_query: str, api_key: str) -> str:
     """
@@ -13,6 +14,6 @@ def generate_expected_output(model: str, contexts: str, evolved_query: str, api_
         str: The generated expected output.
     """
     prompt = expected_output_prompt(contexts=contexts, evolved_query=evolved_query)
-    chat_groq = ChatGroq(model=model, api_key=api_key)
+    chat_groq = ChatGroq(model=model, api_key=api_key).with_structured_output(ExpectedOutput)
     response = chat_groq.invoke(prompt)
-    return response.content
+    return response.expected_output
