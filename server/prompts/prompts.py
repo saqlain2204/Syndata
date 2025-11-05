@@ -1,86 +1,14 @@
 
 def query_prompt(contexts: str):
-    return f"""I want you act as a copywriter. Based on the given context, 
-        which is list of strings, please generate a list of JSON objects 
-        with a `input` key. The `input` can either be a question or a 
-        statement that can be addressed by the given context.
-
-        contexts:
-        {contexts}
-        
-        Return the output in the following JSON format:
-        {{
-            "input": "your generated question or statement here"
-        }}
-        
-        """
+    return f"""Respond ONLY with valid JSON matching the schema below. Do not include any extra text, explanations, or formatting.\nI want you act as a copywriter. Based on the given context, which is list of strings, please generate a list of JSON objects with a `input` key. The `input` can either be a question or a statement that can be addressed by the given context.\n\ncontexts:\n{contexts}\n\nReturn the output in the following JSON format:\n{{\n    \"input\": \"your generated question or statement here\"\n}}\n"""
 
 def multi_context_template(context: str, original_input: str):
-    return f"""I want you to rewrite the given `input` so that it requires readers to use information from all elements in `Context`.
-
-        1. `Input` should require information from all `Context` elements. 
-        2. `Rewritten Input` must be concise and fully answerable from `Context`. 
-        3. Do not use phrases like 'based on the provided context.'
-        4. `Rewritten Input` should not exceed 15 words.
-        
-        Give only the Rewritten Input as output and nothing else.
-
-        Context: {context}
-        Input: {original_input}
-        
-        Return the output in the following JSON format:
-        {{
-            "input": "Rewritten Input here"
-        }}
-        """
+    return f"""Respond ONLY with valid JSON matching the schema below. Do not include any extra text, explanations, or formatting.\nI want you to rewrite the given `input` so that it requires readers to use information from all elements in `Context`.\n\n1. `Input` should require information from all `Context` elements.\n2. `Rewritten Input` must be concise and fully answerable from `Context`.\n3. Do not use phrases like 'based on the provided context.'\n4. `Rewritten Input` should not exceed 15 words.\n\nGive only the Rewritten Input as output and nothing else.\n\nContext: {context}\nInput: {original_input}\n\nReturn the output in the following JSON format:\n{{\n    \"input\": \"Rewritten Input here\"\n}}\n"""
 
 def reasoning_template(context: str, original_input: str):
-    return f"""I want you to rewrite the given `input` so that it explicitly requests multi-step reasoning.
-
-        1. `Rewritten Input` should require multiple logical connections or inferences.
-        2. `Rewritten Input` should be concise and understandable.
-        3. Do not use phrases like 'based on the provided context.'
-        4. `Rewritten Input` must be fully answerable from `Context`.
-        5. `Rewritten Input` should not exceed 15 words.
-        
-        Give only the Rewritten Input as output and nothing else.
-
-        Context: {context}
-        Input: {original_input}
-
-        Return the output in the following JSON format:
-        {{
-            "input": "Rewritten Input here"
-        }}
-        """
+    return f"""Respond ONLY with valid JSON matching the schema below. Do not include any extra text, explanations, or formatting.\nI want you to rewrite the given `input` so that it explicitly requests multi-step reasoning.\n\n1. `Rewritten Input` should require multiple logical connections or inferences.\n2. `Rewritten Input` should be concise and understandable.\n3. Do not use phrases like 'based on the provided context.'\n4. `Rewritten Input` must be fully answerable from `Context`.\n5. `Rewritten Input` should not exceed 15 words.\n\nGive only the Rewritten Input as output and nothing else.\n\nContext: {context}\nInput: {original_input}\n\nReturn the output in the following JSON format:\n{{\n    \"input\": \"Rewritten Input here\"\n}}\n"""
 
 def hypothetical_scenario_template(context: str, original_input: str):
-    return f"""I want you to rewrite the given `input` to incorporate a hypothetical or speculative scenario.
-
-        1. `Rewritten Input` should encourage applying knowledge from `Context` to deduce outcomes.
-        2. `Rewritten Input` should be concise and understandable.
-        3. Do not use phrases like 'based on the provided context.'
-        4. `Rewritten Input` must be fully answerable from `Context`.
-        5. `Rewritten Input` should not exceed 15 words.
-        
-        Give only the Rewritten Input as output and nothing else.
-
-        Context: {context}
-        Input: {original_input}
-        Return the output in the following JSON format:
-        {{
-            "input": "Rewritten Input here"
-        }}
-        """
+    return f"""Respond ONLY with valid JSON matching the schema below. Do not include any extra text, explanations, or formatting.\nI want you to rewrite the given `input` to incorporate a hypothetical or speculative scenario.\n\n1. `Rewritten Input` should encourage applying knowledge from `Context` to deduce outcomes.\n2. `Rewritten Input` should be concise and understandable.\n3. Do not use phrases like 'based on the provided context.'\n4. `Rewritten Input` must be fully answerable from `Context`.\n5. `Rewritten Input` should not exceed 15 words.\n\nGive only the Rewritten Input as output and nothing else.\n\nContext: {context}\nInput: {original_input}\nReturn the output in the following JSON format:\n{{\n    \"input\": \"Rewritten Input here\"\n}}\n"""
 def expected_output_prompt(contexts: str, evolved_query: str):
-    return f"""I want you to generate an answer for the given `input`. This answer has to be factually aligned to the provided context.
-
-        Give only the final answer as output and nothing else.
-        
-        Context: {contexts}
-        Input: {evolved_query}
-        Return the output in the following JSON format:
-        {{
-            "expected_output": "Your generated answer here"
-        }}
-        """
+    return f"""Respond ONLY with valid JSON matching the schema below. Do not include any extra text, explanations, or formatting.\nI want you to generate an answer for the given `input`. This answer has to be factually aligned to the provided context.\n\nGive only the final answer as output and nothing else.\n\nContext: {contexts}\nInput: {evolved_query}\nReturn the output in the following JSON format:\n{{\n    \"expected_output\": \"Your generated answer here\"\n}}\n"""
