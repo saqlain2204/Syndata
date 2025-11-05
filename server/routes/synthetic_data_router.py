@@ -10,13 +10,14 @@ import pandas as pd
 from data_generation import generate_synthetic_data
 from services import document_embeddings
 
-from models.synthetic_data import SyntheticDataResponse, SyntheticDataRequest
+from models.synthetic_data import SyntheticDataResponse
 
 
 router = APIRouter(prefix="/api/synthetic-data", tags=["synthetic-data"])
 
 
 @router.post("/generate", response_model=SyntheticDataResponse)
+@limiter.limit("2/minute")
 async def generate_synthetic_data_from_pdf(
     file: UploadFile = File(...),
     groq_api_key: str = Form(...),
@@ -102,6 +103,7 @@ async def generate_synthetic_data_from_pdf(
 
 
 @router.get("/download/{filename}")
+@limiter.limit("2/minute")
 async def download_csv(filename: str):
     """
     Download the generated synthetic data CSV file.

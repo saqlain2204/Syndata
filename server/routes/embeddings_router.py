@@ -7,6 +7,8 @@ from pathlib import Path
 
 from services.document_embeddings import embed_pdf
 
+from .limiter import limiter
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -15,6 +17,7 @@ router = APIRouter(prefix="/api/embeddings", tags=["embeddings"])
 
 
 @router.post("/pdf")
+@limiter.limit("3/minute")
 async def generate_pdf_embeddings(
     hf_api_key: str,
     file: UploadFile = File(...),
