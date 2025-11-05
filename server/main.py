@@ -26,8 +26,7 @@ app.add_middleware(
 
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# Include routers
-app.include_router(embeddings_router)
+# app.include_router(embeddings_router)
 app.include_router(synthetic_data_router)
 
 
