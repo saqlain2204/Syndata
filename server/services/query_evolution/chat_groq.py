@@ -14,10 +14,21 @@ def evolve_query(query: str, api_key: str, model: str, context: str, steps: int)
         reasoning_template_str,
         hypothetical_scenario_template_str
     ]
-    chat_groq = ChatGroq(model=model, api_key=api_key).with_structured_output(QueryOutput)
+    response_format = {
+        "type": "json_schema",
+        "json_schema": {
+            "name": "query_output",
+            "schema": QueryOutput.model_json_schema()
+        }
+    }
+    import json
+    chat_groq = ChatGroq(model=model, api_key=api_key)
     for _ in range(steps):
         chosen_prompt = random.choice(evolution_prompts)
-        current_input = chat_groq.invoke(chosen_prompt).input
+        response = chat_groq.invoke(chosen_prompt, response_format=response_format)
+        data = json.loads(response.content)
+        parsed = QueryOutput(**data)
+        current_input = parsed.input
         time.sleep(5)
     return current_input
 

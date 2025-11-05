@@ -15,6 +15,16 @@ def generate_query_groq(model: str, contexts: str, api_key: str) -> str:
         str: The generated query.
     """
     prompt = query_prompt(contexts=contexts)
-    chat_groq = ChatGroq(model=model, api_key=api_key).with_structured_output(QueryOutput)
-    response = chat_groq.invoke(prompt)
-    return response.input
+    response_format = {
+        "type": "json_schema",
+        "json_schema": {
+            "name": "query_output",
+            "schema": QueryOutput.model_json_schema()
+        }
+    }
+    import json
+    chat_groq = ChatGroq(model=model, api_key=api_key)
+    response = chat_groq.invoke(prompt, response_format=response_format)
+    data = json.loads(response.content)
+    parsed = QueryOutput(**data)
+    return parsed.input
