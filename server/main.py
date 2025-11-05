@@ -3,10 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes.embeddings_router import router as embeddings_router
 from routes.synthetic_data_router import router as synthetic_data_router
 
-from routers.limiter import limiter
+from routes.limiter import limiter
 
 from slowapi import _rate_limit_exceeded_handler
-from slowapi.error import RateLimitExceeded
+from slowapi.errors import RateLimitExceeded
 
 app = FastAPI(
     title="Synthetic Data Generator API",
@@ -65,7 +65,7 @@ async def health_check():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
-        "api:app",
+        "main:app",
         host="0.0.0.0",
         port=8000,
         reload=True,
