@@ -6,6 +6,13 @@ import os
 import tempfile
 from pathlib import Path
 import pandas as pd
+import logging
+
+from fastapi import Request
+
+logger = logging.getLogger(__name__)
+
+from .limiter import limiter
 
 from data_generation import generate_synthetic_data
 from services import document_embeddings
@@ -19,10 +26,11 @@ router = APIRouter(prefix="/api/synthetic-data", tags=["synthetic-data"])
 @router.post("/generate", response_model=SyntheticDataResponse)
 @limiter.limit("2/minute")
 async def generate_synthetic_data_from_pdf(
+    request: Request,
     file: UploadFile = File(...),
     groq_api_key: str = Form(...),
     hf_api_key: str = Form(...),
-    model: str = Form("llama-3.1-8b-instant"),
+    model: str = Form("openai/gpt-oss-20b"),
     query_improvement_steps: int = Form(3),
     total_data_points: int = Form(5),
     chunk_size: int = Form(1000),
@@ -92,11 +100,14 @@ async def generate_synthetic_data_from_pdf(
             message=f"Generated {total_data_points} synthetic data points from {file.filename}",
             data=data_list
         )
-    
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error generating synthetic data: {str(e)}")
-    
+        # Log the exception and return its message in the HTTP response for easier debugging
+        logger.exception("Error generating synthetic data")
+        raise HTTPException(status_code=500, detail=str(e))
     finally:
+        # Clean up temporary file
+        if os.path.exists(tmp_path):
+            os.unlink(tmp_path)
         # Clean up temporary file
         if os.path.exists(tmp_path):
             os.unlink(tmp_path)
@@ -104,7 +115,7 @@ async def generate_synthetic_data_from_pdf(
 
 @router.get("/download/{filename}")
 @limiter.limit("2/minute")
-async def download_csv(filename: str):
+async def download_csv(request: Request, filename: str):
     """
     Download the generated synthetic data CSV file.
     

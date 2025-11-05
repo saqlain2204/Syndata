@@ -5,6 +5,8 @@ import os
 import tempfile
 from pathlib import Path
 
+from fastapi import Request
+
 from services.document_embeddings import embed_pdf
 
 from .limiter import limiter
@@ -19,6 +21,7 @@ router = APIRouter(prefix="/api/embeddings", tags=["embeddings"])
 @router.post("/pdf")
 @limiter.limit("3/minute")
 async def generate_pdf_embeddings(
+    request: Request,
     hf_api_key: str,
     file: UploadFile = File(...),
     chunk_size: int = 1000,
