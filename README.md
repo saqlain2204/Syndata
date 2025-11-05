@@ -6,16 +6,17 @@
 </p>
 
 <p align="center">
-   <a href="https://github.com/saqlain2204/syndata">
-      <img src="https://img.shields.io/github/stars/saqlain2204/syndata?style=social" alt="GitHub stars" />
+   <a href="https://github.com/saqlain2204/Syndata">
+      <img src="https://img.shields.io/github/stars/saqlain2204/Syndata?style=social" alt="GitHub stars" />
    </a>
-   <a href="https://github.com/saqlain2204/syndata/fork">
-      <img src="https://img.shields.io/github/forks/saqlain2204/syndata?style=social" alt="GitHub forks" />
+   <a href="https://github.com/saqlain2204/Syndata/fork">
+      <img src="https://img.shields.io/github/forks/saqlain2204/Syndata?style=social" alt="GitHub forks" />
    </a>
-      <a href="https://github.com/saqlain2204/syndata">
-         <img src="https://visitor-badge.laobi.icu/badge?page_id=saqlain2204.syndata" alt="Repo views" />
-      </a>
+   <a href="https://github.com/saqlain2204/Syndata">
+      <img src="https://visitor-badge.laobi.icu/badge?page_id=saqlain2204.Syndata" alt="Repo views" />
+   </a>
 </p>
+
 
 ---
 
