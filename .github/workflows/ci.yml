@@ -15,17 +15,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Check for client folder
+        id: client-check
+        run: |
+          if [ -d "client" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Set up Node.js
+        if: steps.client-check.outputs.exists == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
       - name: Install frontend dependencies
+        if: steps.client-check.outputs.exists == 'true'
         run: |
           cd client
           npm install
 
       - name: Run frontend tests
+        if: steps.client-check.outputs.exists == 'true'
         run: |
           cd client
           npm run test || echo "No frontend tests found"
