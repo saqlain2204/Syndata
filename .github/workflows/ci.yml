@@ -44,3 +44,25 @@ jobs:
         run: |
           cd server
           pytest || echo "No backend tests found"
+
+  docker-backend-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image for backend
+        run: |
+          cd server
+          docker build -t syndata-backend .
+
+      - name: Run Docker container for backend
+        run: |
+          docker run -d -p 8000:8000 --name syndata-backend-test syndata-backend
+          sleep 10  # Wait for the container to start
+          curl --fail http://localhost:8000/health
+
+      - name: Stop and remove container
+        run: |
+          docker stop syndata-backend-test
+          docker rm syndata-backend-test
