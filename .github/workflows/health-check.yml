@@ -1,0 +1,23 @@
+name: Health Check Cron
+
+on:
+  schedule:
+    # Runs every 14 minutes to keep the Render service awake
+    - cron: '*/14 * * * *'
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Health Endpoint
+        run: |
+          curl -X GET https://syndata.onrender.com/health \
+            --fail \
+            --silent \
+            --show-error \
+            --max-time 30
+        continue-on-error: true
+
+      - name: Log Result
+        run: echo "Health check completed at $(date)"
