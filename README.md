@@ -32,6 +32,16 @@
 
 ---
 
+## 🎬 Demo
+
+https://github.com/user-attachments/assets/demo.mp4
+
+<p align="center">
+   <em>Watch SynData in action – from PDF upload to synthetic data generation!</em>
+</p>
+
+---
+
 ## 🌟 Features
 
 - **PDF Processing:** Upload and process PDF documents to extract meaningful content chunks
