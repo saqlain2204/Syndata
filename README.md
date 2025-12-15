@@ -37,7 +37,7 @@
 
 <p align="center">
    <video width="480" controls>
-      <source src="https://raw.githubusercontent.com/saqlain2204/syndata/main/assets/demo.mp4" type="video/mp4">
+      <source src="https://raw.githubusercontent.com/saqlain2204/syndata/main/assets/demo.mov" type="video/mp4">
       Your browser does not support the video tag.
    </video>
    <br />
