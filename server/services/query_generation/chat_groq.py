@@ -26,5 +26,7 @@ def generate_query_groq(model: str, contexts: str, api_key: str) -> str:
     chat_groq = ChatGroq(model=model, api_key=api_key)
     response = chat_groq.invoke(prompt, response_format=response_format)
     data = json.loads(response.content)
+    if isinstance(data, list):
+        data = data[0] if data else {}
     parsed = QueryOutput(**data)
     return parsed.input

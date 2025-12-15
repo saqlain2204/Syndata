@@ -27,6 +27,9 @@ def evolve_query(query: str, api_key: str, model: str, context: str, steps: int)
         chosen_prompt = random.choice(evolution_prompts)
         response = chat_groq.invoke(chosen_prompt, response_format=response_format)
         data = json.loads(response.content)
+        # Handle case where LLM returns a list instead of a dict
+        if isinstance(data, list):
+            data = data[0] if data else {}
         parsed = QueryOutput(**data)
         current_input = parsed.input
         time.sleep(5)
