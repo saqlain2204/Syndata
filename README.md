@@ -34,9 +34,13 @@
 
 ## 🎬 Demo
 
-https://github.com/user-attachments/assets/demo.mp4
 
 <p align="center">
+   <video width="480" controls>
+      <source src="https://raw.githubusercontent.com/saqlain2204/syndata/main/assets/demo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+   </video>
+   <br />
    <em>Watch SynData in action – from PDF upload to synthetic data generation!</em>
 </p>
 
