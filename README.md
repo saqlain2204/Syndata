@@ -34,16 +34,8 @@
 
 ## 🎬 Demo
 
-
-<p align="center">
-   <video width="480" controls>
-      <source src="https://raw.githubusercontent.com/saqlain2204/syndata/main/assets/demo.mov" type="video/mp4">
-      Your browser does not support the video tag.
-   </video>
-   <br />
-   <em>Watch SynData in action – from PDF upload to synthetic data generation!</em>
-</p>
-
+  https://github.com/user-attachments/assets/60f10fc8-ec4e-4fa3-8b82-b82609668320
+  
 ---
 
 ## 🌟 Features
